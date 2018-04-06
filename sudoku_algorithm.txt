@@ -1,0 +1,68 @@
+function Board
+  LOOP array row dari 1-9
+    LOOP array column dari 1-9
+      isi index dengan nomor acak
+    END LOOP
+  END LOOP
+  return board
+
+/////////////////////////////
+function cek indexKosong
+  panggil function Board
+  Buat array penampung index kosong
+  LOOP row Board
+    LOOP column board
+      buat object penampung index
+      masukkan index row & column
+      push object ke array
+    END LOOP
+  END LOOP
+  return array penampung
+
+/////////////////////
+function cek konflik
+  IF horizontal,vertical  dan blok tidak ada konflik
+    return true
+  END IF
+  return false
+
+//////////////////
+function cek kolom (parameter : board, row, currValue)
+  LOOP col sebanyak 9
+    IF board row col == currValue
+      return false
+    END IF
+  END LOOP
+  return true
+
+///////////////////
+function cek baris (parameter : board, col, currValue)
+  LOOP row sebanyak 9
+    IF board row col == currValue
+      return false
+    END IF
+  END LOOP
+  return true
+
+///////////////////////
+function cek blok 3x3 (parameter: board, row, col, currValue)
+  dapatkan angka row dengan (row/3)*3
+  dapatkan angka col dengan (col/3)*3
+
+  LOOP i sebanyak 3
+    LOOP j sebanyak 3
+      IF board row+i col+j == currValue
+        return false
+      END IF
+    END LOOP
+  END LOOP
+  return true
+
+/////////////////////
+function solved
+  panggil function indexKosong
+  buat variabel limit adalah 9
+
+  LOOP array indexKosong
+
+  END LOOP
