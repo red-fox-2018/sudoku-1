@@ -10,6 +10,7 @@ class Sudoku {
     this.obj = {}
     this.lostnumbers = []
     this.cek = [];
+    this.pos = [];
   }
   // Returns a string representing the current state of the board
   board() {
@@ -93,31 +94,48 @@ class Sudoku {
 
   solve () {
     this.board();
-    this.createObject()
+    this.createObject();
     console.log('============BEFORE==============')
     for (let i = 0; i < 9; i++) {
       console.log(this.table[i].join(' | '))
     }
     console.log('=============AFTER==============')
+
     for (let i = 0; i < 9; i++) {
       for (let j in this.obj[i].posisi) {
         let posisi = this.obj[i].posisi[j];
-        for (let k = 0; k < this.obj[i].lost.length; k++) {
-          let value = this.obj[i].lost[k]
-          if(this.check(posisi, value, i) === true) {
-            this.table[i][posisi] = value.toString()
-          }
+        this.pos.push([i, this.obj[i].posisi[j]])
+      }
+    }
+    for (let i = 0; i < this.pos.length;) {
+      let x = this.pos[i][0];
+      let y = this.pos[i][1];
+      let value = Number(this.table[x][y]) + 1;
+      let found = false
+      while(!found && value <= 9) {
+        if(this.check(y, value, x)) {
+          found = true;
+          this.table[x][y] = value;
+          i++
+        }else {
+          value++
         }
       }
-      console.log(this.table[i].join(' | '))
+      if(!found) {
+        this.table[x][y] = 0;
+        i--
+      }
     }
+    this.table.forEach(row => {
+      console.log(row.join(' | '))
+    });
   }   
 }
 
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
 var fs = require('fs')
-var board_string = fs.readFileSync('set-01_sample.unsolved.txt').toString().split("\n")[8]
+var board_string = fs.readFileSync('set-01_sample.unsolved.txt').toString().split("\n")[1]
 // var board_string = '369052478850674931714308265683927154597416820021835697138769042240583719905241306'
 var game = new Sudoku(board_string)
 
