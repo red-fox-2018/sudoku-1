@@ -4,10 +4,10 @@
 */
 
 /*
-- Solusi dengan dengan pengecekan secara vertikal, horizontal dan block
-- Memasukan 1 - 9 pada tempat yang kosong
-- Test case very easy bisa menyelesaikan hanya terdapat 1 / 2 row yang kosong setiap row, column / block
-- Test case board berisi 0 terlalu banyak tidak bisa solve, akan banyak board yang ter-skip
+- Solusi dengan pengecekan secara vertikal, horizontal dan block
+- Mengganti elemen 0 dengan  1 - 9 secara berurutan, sangat mungkin terjadi kesalahan penempatan, dan value yang sudah ditempatkan tidak bisa diganti lagi
+- Solve terhadap case very easy, hanya terdapat 1 - 2 value 0 setiap row, column, block
+- Case yang terlalu banyak elemen 0 (> 2) gagal membuat solusi, 
 - Solusi tanpa menggunakan backtracking
 
 # SOLUSIN INI MEMILIKI LANJUTAN PADA RELEASE 1
