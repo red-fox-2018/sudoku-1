@@ -8,7 +8,6 @@ class Sudoku {
     this.count = 0;
     this.arr = []
     this.obj = {}
-    this.lostnumbers = []
     this.cek = [];
     this.pos = [];
   }
@@ -26,23 +25,17 @@ class Sudoku {
 
   createObject() {
     for (let i = 0; i < 9; i++) {
-      this.arr = []
-      this.lostnumbers = []
+      this.arr = [];
       for (let j = 0; j < 9; j++) {
         if(this.table[i][j] == 0) {
           this.arr.push(j);
-        }
-        if (this.table[i].indexOf((j+1).toString()) === -1) {
-          this.lostnumbers.push(j+1)
         }
       }
       if (this.obj[i] == undefined) {
         this.obj[i] = {}
         this.obj[i].posisi = this.arr
-        this.obj[i].lost = this.lostnumbers
       } else {
         this.obj[i].posisi = this.arr
-        this.obj[i].lost = this.lostnumbers
       }
     }
   }
@@ -101,29 +94,30 @@ class Sudoku {
     }
     console.log('=============AFTER==============')
 
-    for (let i = 0; i < 9; i++) {
+    for (let i in this.obj) {
       for (let j in this.obj[i].posisi) {
         let posisi = this.obj[i].posisi[j];
         this.pos.push([i, this.obj[i].posisi[j]])
       }
     }
-    for (let i = 0; i < this.pos.length;) {
-      let x = this.pos[i][0];
-      let y = this.pos[i][1];
+    let index = 0;
+    while (index < this.pos.length) {
+      let x = this.pos[index][0];
+      let y = this.pos[index][1];
       let value = Number(this.table[x][y]) + 1;
       let found = false
       while(!found && value <= 9) {
         if(this.check(y, value, x)) {
           found = true;
           this.table[x][y] = value;
-          i++
+          index++
         }else {
           value++
         }
       }
       if(!found) {
         this.table[x][y] = 0;
-        i--
+        index--
       }
     }
     this.table.forEach(row => {
