@@ -23,16 +23,6 @@ class Sudoku {
     }
   }
 
-  countZero(i) {
-    this.count = 0
-    for (let j = 0; j < 9; j++) {
-      if (this.table[i][j] == 0) {
-      this.count++
-      }
-    }
-    this.obj[i].zero = this.count
-  }
-
   createObject() {
     for (let i = 0; i < 9; i++) {
       this.arr = []
@@ -52,30 +42,6 @@ class Sudoku {
       } else {
         this.obj[i].posisi = this.arr
         this.obj[i].lost = this.lostnumbers
-      }
-    }
-  }
-
-  checker (i){
-    for (let key in this.obj[i].lost) {
-      this.cek = [];
-      for (let j = 0; j < 9; j++) {
-        if ((this.obj[i].lost[key]) != this.table[i][j] && this.obj[i].lost[key] != this.table[j][this.obj[i].posisi[key]]) {
-          this.cek.push(true)
-        }
-      }
-      if (i < 3) {
-        this.boxChecker(0,3,this.obj[i].posisi[key], i, this.obj[i].lost[key])
-      }else if(i < 6) {
-        this.boxChecker(3,6,this.obj[i].posisi[key], i, this.obj[i].lost[key])
-      }else {
-        this.boxChecker(6,9,this.obj[i].posisi[key], i, this.obj[i].lost[key])
-      }
-      if (this.cek.length == 18) {
-        this.table[i][this.obj[i].posisi[key]] = this.obj[i].lost[key].toString()
-        this.obj[i].cocok.push(true, this.obj[i].lost[key].toString(), this.obj[i].posisi[key])
-      }else {
-        this.obj[i].cocok.push(false)
       }
     }
   }
@@ -103,10 +69,30 @@ class Sudoku {
       }
     }
   }
-  
+
+  check (posisi, value, i){
+    this.cek = [];
+    for (let j = 0; j < 9; j++) {
+      if (value != this.table[i][j] && value != this.table[j][posisi]) {
+        this.cek.push(true)
+      }
+    }
+    if (i < 3) {
+      this.boxChecker(0,3,posisi, i, value)
+    }else if(i < 6) {
+      this.boxChecker(3,6,posisi, i, value)
+    }else {
+      this.boxChecker(6,9,posisi, i, value)
+    }
+    if (this.cek.length == 18) {
+      return true;
+    }else {
+      return false;
+    }
+  }
+
   solve () {
-    this.board()
-    // console.log(this.table) 
+    this.board();
     this.createObject()
     console.log('============BEFORE==============')
     for (let i = 0; i < 9; i++) {
@@ -114,34 +100,26 @@ class Sudoku {
     }
     console.log('=============AFTER==============')
     for (let i = 0; i < 9; i++) {
-      this.obj[i].cocok = []
-      this.checker(i);
-      this.countZero(i);
+      for (let j in this.obj[i].posisi) {
+        let posisi = this.obj[i].posisi[j];
+        for (let k = 0; k < this.obj[i].lost.length; k++) {
+          let value = this.obj[i].lost[k]
+          if(this.check(posisi, value, i) === true) {
+            this.table[i][posisi] = value.toString()
+          }
+        }
+      }
       console.log(this.table[i].join(' | '))
-      // console.log('------')
     }
-    // console.log(this.table)
-    // console.log(this.cocok)
-    console.log(this.obj)
   }   
 }
 
 // The file has newlines at the end of each line,
 // so we call split to remove it (\n)
 var fs = require('fs')
-var board_string = fs.readFileSync('set-02_project-euler_50-easy-puzzles.txt')
-  .toString()
-  .split("\n")[0]
+var board_string = fs.readFileSync('set-01_sample.unsolved.txt').toString().split("\n")[8]
 // var board_string = '369052478850674931714308265683927154597416820021835697138769042240583719905241306'
 var game = new Sudoku(board_string)
 
 // Remember: this will just fill out what it can and not "guess"
-game.solve()
-// game.checkZero()
-// game.checkLostNumber()
-// game.fillBoard()
-// game.checkCol();
-// game.checkRow();
-
-// console.log(game.board())
-// console.log(game.solve())
+game.solve();
