@@ -183,7 +183,7 @@ class SudokuChecker {
 
 // driver code sampel 1
 const fs = require('fs');
-let input = fs.readFileSync('example.txt', 'utf8');
+let input = fs.readFileSync('set-02_project-euler_50-easy-puzzles.txt', 'utf8');
 let line = input.split('\n')[1]; // change index to use other test case
 
 let sudoku = new Sudoku(line);
