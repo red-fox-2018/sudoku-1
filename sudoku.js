@@ -31,11 +31,14 @@ class sudoku {
                         var horizontal = this.checkHorizontal(filledNum, this.board[i], j)
                         var vertical = this.checkVertical(filledNum, this.board, j, i)
                         var box = this.checkBox(filledNum, this.board, i, j)
-                        var unique = this.lookingUnique(filledNum, possibility)
+                        var unique = this.lookingUnique(filledNum, possibility) 
                         if (possibility.length == 1) {
                             this.board[i][j] = possibility[0]
                             status = false
                         }
+                        console.log(this.printBoard(this.board))
+                        this.sleep(200)
+                        this.reset_board()
                     }
                 }
             }
@@ -43,7 +46,7 @@ class sudoku {
                 done = true
             }
         }   
-        return this.board        
+        return this.printBoard(this.board)    
     }
       
     checkHorizontal(filledNum, numHorizontal, row) {
@@ -110,10 +113,55 @@ class sudoku {
             }
         }
     }
+
+    printBoard(board){
+        var result = ''
+        for(let i=0;i<board.length;i++){
+            var str = ''
+            if(i==0){
+                result += ' ------- ------- -------' + '\n'
+            }
+            for(let j=0;j<board[i].length;j++){
+                if(j==0){
+                    str += '| '
+                }
+                if(j==2 || j==5 || j==8){
+                    str += board[i][j] + ' | '
+                }
+                else{
+                    str += board[i][j] + ' '
+                }
+                
+            }
+            if (i == 2 || i == 5 || i == 8){
+                result += str
+                result += '\n'
+                result += ' ------- ------- -------' +'\n'
+            }
+            else{
+                result += str
+                result += '\n'
+            }  
+        }
+        return result
+    }
+
+    reset_board() {
+    console.log("\x1B[2J")
+    }
+
+    sleep (milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
 }
 
 var fs = require('fs')
-var str = fs.readFileSync('example.txt').toString().split('\n')[0]
+var str = fs.readFileSync('example.txt').toString().split('\n')[7]
 var game = new sudoku(str)
 game.generateBoard()
 console.log(game.solve())
