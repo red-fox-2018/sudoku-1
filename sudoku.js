@@ -1,4 +1,6 @@
 "use strict"
+const Table = require('cli-table');
+const chalk = require('chalk');
 
 class Sudoku {
   constructor(board_string) {
@@ -8,6 +10,16 @@ class Sudoku {
   solve() {
     let zeroIndex = this.findZeroIndex()
     let board = this.board()
+
+    let table = new Table({
+      colWidths: [3, 3, 3, 3, 3, 3, 3, 3, 3]
+    });
+
+    board.forEach(res => {
+      table.push(
+        (res)
+      );
+    })
 
     let max = 9;
     for (let i = 0; i < zeroIndex.length;) {
@@ -21,9 +33,9 @@ class Sudoku {
           foundNum = true;
           board[row][col] = num;
           i++;
-          // this.reset_board();
-          // console.log(board);
-          // this.sleep(100);
+          this.reset_board();
+          console.log(chalk.red(table.toString()));
+          this.sleep(100);
         } else {
           num++;
         }
@@ -34,7 +46,7 @@ class Sudoku {
       }
     }
 
-    console.log(board);
+    console.log(chalk.green(table.toString()));
   }
 
   findZeroIndex() {
