@@ -10,7 +10,7 @@
 - Test case board berisi 0 terlalu banyak tidak bisa solve, akan banyak board yang ter-skip
 - Solusi tanpa menggunakan backtracking
 
-# Solusi ini memiliki lanjutan pada Release 1
+# SOLUSIN INI MEMILIKI LANJUTAN PADA RELEASE 1
 
 */
 
